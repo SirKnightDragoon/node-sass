@@ -89,6 +89,22 @@ function download(url, dest, cb) {
   }
 }
 
+function getDownloadBinaryArgs() {
+  var downloads = [];
+
+  var index = options.args.findIndex(function (i) {
+    return i.indexOf("--download-binary") != -1
+  });
+
+  console.log(index);
+
+  if(index != -1){
+    downloads = options.args[index];
+  }
+
+  return downloads;
+}
+
 /**
  * Check and download binary
  *
@@ -98,9 +114,9 @@ function download(url, dest, cb) {
 function checkAndDownloadBinary() {
 
   console.log('--arguments--');
-  console.log(process.env.npm_config_argv);
-  console.log('arguments: ' + process.argv);
-  console.log('arguments: ' + process.argv.slice(2));
+  console.log(process.env.npm_config_argv.original);
+  console.log(getDownloadBinaryArgs());
+
 
   //if (sass.getArgument('--download-binary') == null) {
     if (process.env.SKIP_SASS_BINARY_DOWNLOAD_FOR_CI) {
