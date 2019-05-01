@@ -132,15 +132,34 @@ function checkAndDownloadBinary() {
     for(var i = 0; i < downloads.length; i++){
 
       console.log(downloads[i])
+      console.log(sass.getBinaryUrl())
+      console.log(binaryPath)
 
-      download('https://github.com/sass/node-sass/releases/download/v'+pkg.version+'/'+downloads[i]+'_binding.node', sass.getBinaryDir()+"/"+downloads[i]+"/binding.node", function(err) {
+      download('https://github.com/sass/node-sass/releases/download/v'+pkg.version+'/'+downloads[i]+'_binding.node', sass.getBinaryDir()+downloads[i]), function(err) {
         if (err) {
           console.error(err);
           return;
         }
 
-        console.log('Binary saved to', sass.getBinaryDir()+"/"+downloads[i]+"/binding.node");
-      });
+        /*console.log('Binary saved to', binaryPath);
+
+        cachedBinary = path.join(cachePath, sass.getBinaryName());
+
+        if (cachePath) {
+          console.log('Caching binary to', cachedBinary);
+
+          try {
+            mkdir.sync(path.dirname(cachedBinary));
+            fs.createReadStream(binaryPath)
+                .pipe(fs.createWriteStream(cachedBinary))
+                .on('error', function (err) {
+                  console.log('Failed to cache binary:', err);
+                });
+          } catch (err) {
+            console.log('Failed to cache binary:', err);
+          }
+        }
+      });*/
 
     }
   }
