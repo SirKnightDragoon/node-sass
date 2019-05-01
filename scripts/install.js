@@ -97,11 +97,10 @@ function download(url, dest, cb) {
 
 function checkAndDownloadBinary() {
 
-  console.log(process.argv);
-  console.log(process.argv.slice(2));
+  console.log('--arguments--');
+  console.log('arguments: ' + process.argv.slice(2));
 
-  return;
-  if (sass.getArgument('--download-binary') == null) {
+  //if (sass.getArgument('--download-binary') == null) {
     if (process.env.SKIP_SASS_BINARY_DOWNLOAD_FOR_CI) {
       console.log('Skipping downloading binaries on CI builds');
       return;
@@ -128,7 +127,7 @@ function checkAndDownloadBinary() {
       fs.createReadStream(cachedBinary).pipe(fs.createWriteStream(binaryPath));
       return;
     }
-  }
+  //}
 
   download(sass.getBinaryUrl(), binaryPath, function(err) {
     if (err) {
