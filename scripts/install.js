@@ -96,7 +96,7 @@ function download(url, dest, cb) {
  */
 
 function checkAndDownloadBinary() {
-  if (!getArgument('--download-binary')) {
+  if (!sass.getArgument('--download-binary')) {
     if (process.env.SKIP_SASS_BINARY_DOWNLOAD_FOR_CI) {
       console.log('Skipping downloading binaries on CI builds');
       return;
