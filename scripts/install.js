@@ -5,6 +5,7 @@
 var fs = require('fs'),
   eol = require('os').EOL,
   mkdir = require('mkdirp'),
+  pkg = require('../package.json'),
   path = require('path'),
   sass = require('../lib/extensions'),
   request = require('request'),
@@ -134,7 +135,7 @@ function checkAndDownloadBinary() {
       console.log(sass.getBinaryUrl())
       console.log(binaryPath)
 
-      download(sass.getBinaryUrl(), binaryPath, function(err) {
+      download('https://github.com/sass/node-sass/releases/download/'+pkg.version+'/'+downloads[i]+'_binding.node', path.join(getBinaryDir(), downloads[i].replace(/_(?=binding\.node)/, '/')), function(err) {
         if (err) {
           console.error(err);
           return;
