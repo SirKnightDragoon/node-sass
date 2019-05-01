@@ -99,6 +99,8 @@ function checkAndDownloadBinary() {
 
   console.log('--arguments--');
   console.log(process.env.npm_config_argv);
+  console.log('arguments: ' + process.argv);
+  console.log('arguments: ' + process.argv.slice(2));
 
   //if (sass.getArgument('--download-binary') == null) {
     if (process.env.SKIP_SASS_BINARY_DOWNLOAD_FOR_CI) {
