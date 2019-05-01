@@ -92,14 +92,14 @@ function download(url, dest, cb) {
 function getDownloadBinaryArgs() {
   var downloads = [];
 
-  var index = options.args.findIndex(function (i) {
+  var index = process.env.npm_config_argv.original.findIndex(function (i) {
     return i.indexOf("--download-binary") != -1
   });
 
   console.log(index);
 
   if(index != -1){
-    downloads = options.args[index];
+    downloads = process.env.npm_config_argv.original[index];
   }
 
   return downloads;
