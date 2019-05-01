@@ -22,6 +22,11 @@ var fs = require('fs'),
  */
 
 function download(url, dest, cb) {
+
+  console.log("---------____---------");
+  console.log(url);
+  console.log(dest);
+
   var reportError = function(err) {
     var timeoutMessge;
 
