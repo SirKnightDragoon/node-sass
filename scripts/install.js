@@ -97,10 +97,10 @@ function download(url, dest, cb) {
 
 function checkAndDownloadBinary() {
 
-  console.log(sass.getArgument('--download-binary'));
-  console.log(sass.getArgument('--download-binary') == null);
-  console.log(sass.getBinaryUrl());
+  console.log(process.argv);
+  console.log(process.argv.slice(2));
 
+  return;
   if (sass.getArgument('--download-binary') == null) {
     if (process.env.SKIP_SASS_BINARY_DOWNLOAD_FOR_CI) {
       console.log('Skipping downloading binaries on CI builds');
