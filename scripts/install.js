@@ -93,8 +93,6 @@ function getDownloadBinaryArgs() {
   var downloads = [];
   var args = JSON.parse(process.env.npm_config_argv).original;
 
-  console.log(process.env.npm_config_argv);
-  console.log("-----------------------");
   console.log(args);
 
   var index = args.findIndex(function (i) {
@@ -104,7 +102,7 @@ function getDownloadBinaryArgs() {
   console.log(index);
 
   if(index != -1){
-    downloads = process.env.npm_config_argv.original[index];
+    downloads = args[index].split('--download-binary=')[1].split(',');
   }
 
   return downloads;
@@ -118,39 +116,73 @@ function getDownloadBinaryArgs() {
 
 function checkAndDownloadBinary() {
 
-  console.log('--arguments--');
-  console.log(process.env.npm_config_argv.original);
-  console.log(getDownloadBinaryArgs());
+  if (process.env.SKIP_SASS_BINARY_DOWNLOAD_FOR_CI) {
+    console.log('Skipping downloading binaries on CI builds');
+    return;
+  }
 
+  var cachedBinary = sass.getCachedBinary(),
+      cachePath = sass.getBinaryCachePath(),
+      binaryPath = sass.getBinaryPath();
 
-  //if (sass.getArgument('--download-binary') == null) {
-    if (process.env.SKIP_SASS_BINARY_DOWNLOAD_FOR_CI) {
-      console.log('Skipping downloading binaries on CI builds');
-      return;
+  downloads = getDownloadBinaryArgs();
+
+  if(downloads.length){
+    console.log("Download binary: " + downloads);
+
+    for(var i = 0; i < download.length; i++){
+
+      console.log("process.env.SASS_BINARY_NAME" + process.env.SASS_BINARY_NAME);
+
+      process.env.SASS_BINARY_NAME = download[i];
+
+      download(sass.getBinaryUrl(), binaryPath, function(err) {
+        if (err) {
+          console.error(err);
+          return;
+        }
+
+        console.log('Binary saved to', binaryPath);
+
+        cachedBinary = path.join(cachePath, sass.getBinaryName());
+
+        if (cachePath) {
+          console.log('Caching binary to', cachedBinary);
+
+          try {
+            mkdir.sync(path.dirname(cachedBinary));
+            fs.createReadStream(binaryPath)
+                .pipe(fs.createWriteStream(cachedBinary))
+                .on('error', function (err) {
+                  console.log('Failed to cache binary:', err);
+                });
+          } catch (err) {
+            console.log('Failed to cache binary:', err);
+          }
+        }
+      });
+
     }
 
-    var cachedBinary = sass.getCachedBinary(),
-        cachePath = sass.getBinaryCachePath(),
-        binaryPath = sass.getBinaryPath();
+  }
 
-    if (sass.hasBinary(binaryPath)) {
-      console.log('node-sass build', 'Binary found at', binaryPath);
-      return;
-    }
+  if (sass.hasBinary(binaryPath)) {
+    console.log('node-sass build', 'Binary found at', binaryPath);
+    return;
+  }
 
-    try {
-      mkdir.sync(path.dirname(binaryPath));
-    } catch (err) {
-      console.error('Unable to save binary', path.dirname(binaryPath), ':', err);
-      return;
-    }
+  try {
+    mkdir.sync(path.dirname(binaryPath));
+  } catch (err) {
+    console.error('Unable to save binary', path.dirname(binaryPath), ':', err);
+    return;
+  }
 
-    if (cachedBinary) {
-      console.log('Cached binary found at', cachedBinary);
-      fs.createReadStream(cachedBinary).pipe(fs.createWriteStream(binaryPath));
-      return;
-    }
-  //}
+  if (cachedBinary) {
+    console.log('Cached binary found at', cachedBinary);
+    fs.createReadStream(cachedBinary).pipe(fs.createWriteStream(binaryPath));
+    return;
+  }
 
   download(sass.getBinaryUrl(), binaryPath, function(err) {
     if (err) {
