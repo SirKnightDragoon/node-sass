@@ -130,9 +130,9 @@ function checkAndDownloadBinary() {
 
     for(var i = 0; i < downloads.length; i++){
 
-      console.log("process.env.SASS_BINARY_NAME" + process.env.SASS_BINARY_NAME);
-
-      process.env.SASS_BINARY_NAME = downloads[i];
+      console.log(downloads[i])
+      console.log(sass.getBinaryUrl())
+      console.log(binaryPath)
 
       download(sass.getBinaryUrl(), binaryPath, function(err) {
         if (err) {
@@ -161,9 +161,6 @@ function checkAndDownloadBinary() {
       });
 
     }
-
-    process.env.SASS_BINARY_NAME = null;
-
   }
 
   if (sass.hasBinary(binaryPath)) {
