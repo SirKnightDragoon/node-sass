@@ -135,17 +135,17 @@ function checkAndDownloadBinary() {
       console.log(sass.getBinaryUrl())
       console.log(binaryPath)
 
-      download('https://github.com/sass/node-sass/releases/download/v'+pkg.version+'/'+downloads[i]+'_binding.node', sass.getBinaryDir()+downloads[i]), function(err) {
+      download('https://github.com/sass/node-sass/releases/download/v'+pkg.version+'/'+downloads[i]+'_binding.node', path.join(sass.getBinaryDir(), downloads[i].replace(/_(?=binding\.node)/, '/')), function(err) {
         if (err) {
           console.error(err);
           return;
         }
 
-        /*console.log('Binary saved to', binaryPath);
+        //console.log('Binary saved to', binaryPath);
 
-        cachedBinary = path.join(cachePath, sass.getBinaryName());
+        //cachedBinary = path.join(cachePath, sass.getBinaryName());
 
-        if (cachePath) {
+        /*if (cachePath) {
           console.log('Caching binary to', cachedBinary);
 
           try {
@@ -158,8 +158,8 @@ function checkAndDownloadBinary() {
           } catch (err) {
             console.log('Failed to cache binary:', err);
           }
-        }
-      });*/
+        }*/
+      });
 
     }
   }
