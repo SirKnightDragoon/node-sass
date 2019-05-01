@@ -91,8 +91,13 @@ function download(url, dest, cb) {
 
 function getDownloadBinaryArgs() {
   var downloads = [];
+  var args = JSON.parse(process.env.npm_config_argv).original;
 
-  var index = process.env.npm_config_argv.original.findIndex(function (i) {
+  console.log(process.env.npm_config_argv);
+  console.log("-----------------------");
+  console.log(args);
+
+  var index = args.findIndex(function (i) {
     return i.indexOf("--download-binary") != -1
   });
 
