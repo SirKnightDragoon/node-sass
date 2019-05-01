@@ -98,6 +98,10 @@ function download(url, dest, cb) {
 function checkAndDownloadBinary() {
 
   console.log('--arguments--');
+  console.log(process);
+  console.log(process.argv);
+  console.log(process.argv[0]);
+  console.log(process.argv[1]);
   console.log('arguments: ' + process.argv.slice(2));
 
   //if (sass.getArgument('--download-binary') == null) {
