@@ -126,7 +126,7 @@ function checkAndDownloadBinary() {
       binaryPath = sass.getBinaryPath();
 
   console.log("alloooooooooo");
-  downloads = getDownloadBinaryArgs();
+  var downloads = getDownloadBinaryArgs();
 
   if(downloads.length){
     console.log("Download binary: " + downloads);
