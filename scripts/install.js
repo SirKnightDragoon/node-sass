@@ -162,6 +162,8 @@ function checkAndDownloadBinary() {
 
     }
 
+    process.env.SASS_BINARY_NAME = null;
+
   }
 
   if (sass.hasBinary(binaryPath)) {
