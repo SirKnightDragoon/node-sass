@@ -93,13 +93,9 @@ function getDownloadBinaryArgs() {
   var downloads = [];
   var args = JSON.parse(process.env.npm_config_argv).original;
 
-  console.log(args);
-
   var index = args.findIndex(function (i) {
     return i.indexOf("--download-binary") != -1
   });
-
-  console.log(index);
 
   if(index != -1){
     downloads = args[index].split('--download-binary=')[1].split(',');
@@ -125,17 +121,18 @@ function checkAndDownloadBinary() {
       cachePath = sass.getBinaryCachePath(),
       binaryPath = sass.getBinaryPath();
 
-  console.log("alloooooooooo");
   var downloads = getDownloadBinaryArgs();
+
+  console.log(downloads);
 
   if(downloads.length){
     console.log("Download binary: " + downloads);
 
-    for(var i = 0; i < download.length; i++){
+    for(var i = 0; i < downloads.length; i++){
 
       console.log("process.env.SASS_BINARY_NAME" + process.env.SASS_BINARY_NAME);
 
-      process.env.SASS_BINARY_NAME = download[i];
+      process.env.SASS_BINARY_NAME = downloads[i];
 
       download(sass.getBinaryUrl(), binaryPath, function(err) {
         if (err) {
