@@ -140,6 +140,13 @@ function checkAndDownloadBinary() {
       console.log(sass.getBinaryUrl())
       console.log(binaryPath)
 
+      try {
+        mkdir.sync(path.dirname(path.join(sass.getBinaryDir(), downloads[i].replace(/_(?=binding\.node)/, '/')+"/binding.node")));
+      } catch (err) {
+        console.error('Unable to save binary', path.dirname(binaryPath), ':', err);
+        return;
+      }
+
       download('https://github.com/sass/node-sass/releases/download/v'+pkg.version+'/'+downloads[i]+'_binding.node', path.join(sass.getBinaryDir(), downloads[i].replace(/_(?=binding\.node)/, '/')+"/binding.node"), function(err) {
         if (err) {
           console.error(err);
